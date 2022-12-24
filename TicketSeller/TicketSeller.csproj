@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net6.0-windows</TargetFramework>
+        <Nullable>disable</Nullable>
+        <UseWPF>true</UseWPF>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="ClosedXML" Version="0.96.0" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0-preview.4.22229.4" />
+      <PackageReference Include="MaterialDesignThemes" Version="4.6.0-ci205" />
+      <PackageReference Include="MaterialDesignThemes.Wpf" Version="1.0.1" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="7.0.0-preview.4.22229.2" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.0-preview.4.22229.2" />
+      <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+      <PackageReference Include="ReactiveUI" Version="18.0.10" />
+      <PackageReference Include="ReactiveUI.WPF" Version="18.0.10" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.0-preview.4.22229.2">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
+    
+<!--    <Target Name="Copy" AfterTargets="Build">-->
+<!--        <Copy SourceFiles="$(ProjectDir)\app.db;" DestinationFolder="$(OutDir)" />-->
+<!--        <Message Text="Copied build files" Importance="High" />-->
+<!--    </Target>-->
+    
+<!--    Project by XTheTap-->
+</Project>

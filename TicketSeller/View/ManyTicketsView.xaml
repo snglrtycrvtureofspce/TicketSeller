@@ -1,0 +1,101 @@
+<Page x:Class="TicketSeller.View.ManyTicketsView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:viewModel="clr-namespace:TicketSeller.ViewModel"
+      xmlns:converter="clr-namespace:TicketSeller.Converter"
+      mc:Ignorable="d"
+      d:DataContext="{d:DesignInstance viewModel:ManyTicketsViewModel}"
+      Title="ManyTicketsView" d:DesignHeight="450" d:DesignWidth="800">
+    <Page.Resources>
+        <converter:BooleanToVisibilityConverterInv x:Key="BooleanToVisibilityConverterInv" />
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition
+                Height="Auto" />
+            <RowDefinition
+                Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Button Content="Добавить" Command="{Binding NewTicketCommand}" Margin="10,10,0,0"
+                    Visibility="{Binding IsUserAdmin, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <Button Content="Отчёт" Command="{Binding ReportCommand}" Margin="10,10,0,0"
+                    Visibility="{Binding IsUserAdmin, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <ComboBox materialDesign:HintAssist.Hint="Тэг билета" materialDesign:TextFieldAssist.HasClearButton="True"
+                      IsEditable="True" ItemsSource="{Binding Tags}" SelectedItem="{Binding SelectedTag}" FontSize="18"
+                      Margin="10,10,0,0" />
+        </StackPanel>
+        <ListView x:Name="GlobalList" Grid.Row="1" Margin="0,10" ItemsSource="{Binding Tickets}">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <materialDesign:Card Width="200">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition
+                                    Height="Auto" />
+                                <RowDefinition
+                                    Height="*" />
+                            </Grid.RowDefinitions>
+                            <StackPanel Margin="5, 5">
+                                <TextBlock
+                                    FontSize="18"
+                                    FontWeight="Bold"
+                                    TextWrapping="Wrap"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding TicketName}" />
+                                <TextBlock
+                                    FontSize="18"
+                                    TextWrapping="Wrap"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding Tag}" />
+                                <TextBlock
+                                    FontSize="18"
+                                    TextWrapping="Wrap"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding DateOfConcert}" />
+                                <TextBlock
+                                    FontSize="18"
+                                    TextWrapping="Wrap"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding ConcertPlace}" />
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" Margin="5, 0">
+                                <TextBlock TextWrapping="Wrap" Text="Продано"
+                                           Visibility="{Binding IsSold, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                <TextBlock TextWrapping="Wrap" Text="Забронированно"
+                                           Visibility="{Binding IsBocked, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                <Button Margin="0,5"
+                                        Content="Купить"
+                                        Command="{Binding ElementName=GlobalList, Path=DataContext.BuyCommand}"
+                                        Visibility="{Binding IsSold, Converter={StaticResource BooleanToVisibilityConverterInv}, ConverterParameter=Inverted}"
+                                        CommandParameter="{Binding Id}" />
+                                <Button Margin="0,5"
+                                        Content="Забронировать"
+                                        Command="{Binding ElementName=GlobalList, Path=DataContext.BockedCommand}"
+                                        Visibility="{Binding IsBocked, Converter={StaticResource BooleanToVisibilityConverterInv}, ConverterParameter=Inverted}"
+                                        CommandParameter="{Binding Id}" />
+                                <Button Margin="0,5"
+                                        Content="Редактировать"
+                                        Command="{Binding ElementName=GlobalList, Path=DataContext.EditCommand}"
+                                        Visibility="{Binding ElementName=GlobalList, Path=DataContext.IsUserAdmin, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                        CommandParameter="{Binding Id}" />
+                                <Button Margin="0,5" Content="Удалить"
+                                        Command="{Binding ElementName=GlobalList, Path=DataContext.DeleteCommand}"
+                                        Visibility="{Binding ElementName=GlobalList, Path=DataContext.IsUserAdmin, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                        CommandParameter="{Binding Id}" />
+                            </StackPanel>
+                        </Grid>
+                    </materialDesign:Card>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>
